@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join a League — Footies</title>
+<meta name="description" content="How to join a Footies League with a three-letter invite code.">
+<style>
+  :root{
+    --cream:#faf6ee; --card:#fffdf8; --ink:#141824; --muted:#5c6273;
+    --line:#e4ddcd; --red:#c8102e; --blue:#1d4ed8; --green:#0f7b3f;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:44rem;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+  header{border-bottom:3px solid var(--red);padding-bottom:1.25rem;margin-bottom:2rem}
+  .brand{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
+  .ball{width:2rem;height:2rem;flex:none}
+  .brand span{font-weight:800;letter-spacing:-.01em;font-size:1.35rem}
+  h1{font-size:1.9rem;line-height:1.15;margin:.35rem 0 .5rem;letter-spacing:-.02em}
+  h2{font-size:1.15rem;margin:0 0 .6rem;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:0}
+  p,li{color:#232838}
+  ol{padding-left:1.15rem}
+  li{margin:.3rem 0}
+  a{color:var(--blue)}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.25rem;margin-bottom:1rem}
+  .code-card{border-left:4px solid var(--green);text-align:center}
+  .code{
+    display:inline-block;font:800 2.75rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.35em;text-indent:.35em;margin:.4rem 0 .2rem;color:var(--ink);
+  }
+  .note{background:#fff8e8;border:1px solid #ecd9a8;border-radius:12px;padding:.9rem 1.1rem;font-size:.94rem;margin-top:.8rem}
+  footer{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+  @media (prefers-color-scheme:dark){
+    :root{--cream:#15171f;--card:#1c1f29;--ink:#f2eee4;--muted:#9aa1b4;--line:#2c3040;--blue:#8ab4ff;--green:#3fbf76}
+    p,li{color:#e4e0d6}
+    .note{background:#2a2416;border-color:#4a3f22}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <svg class="ball" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="13" fill="#fffdf8" stroke="#141824" stroke-width="2"/>
+      <path d="m16 9 5 3.6-1.9 6h-6.2L11 12.6 16 9Z" fill="#141824"/>
+      <path d="M16 3v6M4.2 13.4 10 15.4M27.8 13.4 22 15.4M9.4 27.2 12.9 21.6M22.6 27.2 19.1 21.6" stroke="#141824" stroke-width="1.9" stroke-linecap="round"/>
+    </svg>
+    <span>Footies</span>
+  </div>
+  <h1>Join a League</h1>
+  <p class="lede">Seven days, your mates, one table.</p>
+</header>
+
+<section class="code-card" id="code-card" hidden>
+  <h2>Your invite code</h2>
+  <p class="code" id="code"></p>
+  <p class="lede">Enter this in Footies to join the table.</p>
+</section>
+
+<section>
+  <h2>How to join</h2>
+  <ol>
+    <li>Open <strong>Footies</strong> on your iPhone.</li>
+    <li>Go to the <strong>League</strong> tab.</li>
+    <li>Choose <strong>Join a league</strong> and enter the three-letter code.</li>
+  </ol>
+  <p>League codes are three letters and are case-insensitive.</p>
+  <div class="note">
+    <strong>Tapping this link does not open the app automatically.</strong> Version 1.0
+    does not register universal links, so the code has to be typed into Footies by hand.
+    This page exists to carry the code, not to hand it to the app.
+  </div>
+</section>
+
+<section>
+  <h2>Don’t have Footies?</h2>
+  <p>Footies is an iPhone game of daily football trivia and puzzles. It is not yet
+  publicly listed on the App Store — once it is, a download link will appear here.
+  In the meantime, ask whoever sent you this code for a TestFlight invitation.</p>
+</section>
+
+<footer>
+  <p>Footies — Lafi AlMutlaq · <a href="../privacy.html">Privacy Policy</a> ·
+  <a href="../support.html">Support</a></p>
+</footer>
+</div>
+
+<script>
+  // A bare /join carries no code. The app shares <join-url>/ABC, which GitHub
+  // Pages cannot route to a file, so 404.html renders that case instead and
+  // this only fires if a code somehow reaches the index.
+  (function () {
+    var match = /\/join\/([A-Za-z]{3})\/?$/.exec(location.pathname);
+    if (!match) return;
+    document.getElementById('code').textContent = match[1].toUpperCase();
+    document.getElementById('code-card').hidden = false;
+  })();
+</script>
+</body>
+</html>
