@@ -3,8 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Join a League — Footies</title>
-<meta name="description" content="How to join a Footies League with a three-letter invite code.">
+<title>Play Footies with me</title>
+<meta name="description" content="Tap to open the game in Footies, the daily football games app.">
+<meta property="og:title" content="Play Footies with me">
+<meta property="og:description" content="Tap to open the game in Footies.">
+<meta property="og:site_name" content="Footies">
+<meta name="apple-itunes-app" content="app-id=6800394429">
 <style>
   :root{
     --cream:#faf6ee; --card:#fffdf8; --ink:#141824; --muted:#5c6273;
@@ -35,6 +39,8 @@
     letter-spacing:.35em;text-indent:.35em;margin:.4rem 0 .2rem;color:var(--ink);
   }
   .note{background:#fff8e8;border:1px solid #ecd9a8;border-radius:12px;padding:.9rem 1.1rem;font-size:.94rem;margin-top:.8rem}
+  .open{display:block;text-align:center;background:var(--red);color:#fff;font-weight:800;font-size:1.15rem;text-decoration:none;border-radius:14px;padding:1rem;margin:.9rem 0 .6rem}
+  .store{display:block;text-align:center;font-weight:700}
   footer{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
   @media (prefers-color-scheme:dark){
     :root{--cream:#15171f;--card:#1c1f29;--ink:#f2eee4;--muted:#9aa1b4;--line:#2c3040;--blue:#8ab4ff;--green:#3fbf76}
@@ -54,9 +60,19 @@
     </svg>
     <span>Footies</span>
   </div>
-  <h1>Join a League</h1>
-  <p class="lede">Seven days, your mates, one table.</p>
+  <h1 id="heading">Join a League</h1>
+  <p class="lede" id="lede">Seven days, your mates, one table.</p>
 </header>
+
+<section class="code-card" id="play" hidden>
+  <h2 id="play-title"></h2>
+  <p class="code" id="play-code" hidden></p>
+  <a class="open" id="open" href="footies://">Open in Footies</a>
+  <a class="store" href="https://apps.apple.com/app/id6800394429">Not got Footies? Get it free on the App Store</a>
+  <p class="lede" id="play-how"></p>
+</section>
+
+<div id="league">
 
 <section class="code-card" id="code-card" hidden>
   <h2>Your invite code</h2>
@@ -81,10 +97,11 @@
 
 <section>
   <h2>Don’t have Footies?</h2>
-  <p>Footies is an iPhone game of daily football trivia and puzzles. It is not yet
-  publicly listed on the App Store — once it is, a download link will appear here.
-  In the meantime, ask whoever sent you this code for a TestFlight invitation.</p>
+  <p>Footies is an iPhone game of daily football trivia and puzzles.
+  <a href="https://apps.apple.com/app/id6800394429">Get it free on the App Store</a>.</p>
 </section>
+
+</div>
 
 <footer>
   <p>Footies — Lafi AlMutlaq · <a href="../privacy.html">Privacy Policy</a> ·
@@ -93,6 +110,39 @@
 </div>
 
 <script>
+  // A game link from the app: ?play=<game>&join=<code> (src/games/playLinks.ts).
+  // The button opens the installed app straight on that game, and on the match
+  // when there is a code; the page tries it once on arrival too.
+  (function () {
+    var GAMES = {
+      career: 'Career Path', wordle: 'Fordle', mxi: 'Missing XI', connections: 'Connections',
+      tena: 'TenaBall', box: 'Box2Box', goalless: 'GoalLess', quiz: 'Footy Quiz', ctx: 'Contextinho',
+      pack: 'Pack 11', heat: 'The Heatmap', ttt: 'Tiki-Taka-Toe', thelist: 'The List',
+      myclub: 'My Club', possession: 'Possession Play', clnights: 'Champions League Nights', thirtyeight: '38-0'
+    };
+    var params = new URLSearchParams(location.search);
+    var game = params.get('play');
+    if (!game || !/^[a-z0-9]{1,20}$/.test(game)) return;
+    var code = (params.get('join') || '').toUpperCase();
+    if (!/^[A-Z0-9]{4}$/.test(code)) code = '';
+    var title = GAMES[game] || 'Footies';
+    var app = 'footies://play/' + game + (code ? '?join=' + code : '');
+    document.title = code ? title + ': you are invited' : 'Play ' + title + ' on Footies';
+    document.getElementById('heading').textContent = code ? 'Your mate wants a game' : 'Play ' + title;
+    document.getElementById('lede').textContent = code ? title + ', online, the two of you.' : 'Today\u2019s ' + title + ' is waiting in Footies.';
+    document.getElementById('play-title').textContent = title;
+    if (code) {
+      var shown = document.getElementById('play-code');
+      shown.textContent = code;
+      shown.hidden = false;
+      document.getElementById('play-how').textContent = 'If the button does not open the game, open Footies, tap Play a friend under ' + title + ' and join with ' + code + '.';
+    }
+    document.getElementById('open').href = app;
+    document.getElementById('play').hidden = false;
+    document.getElementById('league').hidden = true;
+    setTimeout(function () { location.href = app; }, 300);
+  })();
+
   // A bare /join carries no code. The app shares <join-url>/ABC, which GitHub
   // Pages cannot route to a file, so 404.html renders that case instead and
   // this only fires if a code somehow reaches the index.
