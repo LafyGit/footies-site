@@ -6,6 +6,7 @@ app, served over HTTPS via GitHub Pages.
 These files are generated from `docs/site/` in the Footies app repository, which
 is the source of truth. Edit them there.
 
+- `index.html` — the landing page: what Footies is and the App Store link (Marketing URL)
 - `privacy.html` — the App Store Connect Privacy Policy URL
 - `support.html` — the App Store Connect Support URL
 - `join/index.html` — League invites; a shared link is `/join/ABC`
